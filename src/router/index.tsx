@@ -1,6 +1,7 @@
 import { lazy, LazyExoticComponent } from "react";
 import { useRoutes } from "react-router-dom";
 import { SuspenseComponent as Suspense } from "../utils";
+import Login from "../components/login/Login";
 
 const Home: LazyExoticComponent<any> = lazy(() => import("../pages/home/Home"));
 
@@ -27,8 +28,12 @@ const Routers = () => {
           ),
         },
         {
-          path: "/about",
-          element: <Suspense></Suspense>,
+          path: "/login",
+          element: (
+            <Suspense>
+              <Login />
+            </Suspense>
+          ),
           children: [
             {
               path: "company",

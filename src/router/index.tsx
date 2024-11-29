@@ -2,6 +2,7 @@ import { lazy, LazyExoticComponent } from "react";
 import { useRoutes } from "react-router-dom";
 import { SuspenseComponent as Suspense } from "../utils";
 import Login from "../components/login/Login";
+import Register from "../components/register/Register";
 
 const Home: LazyExoticComponent<any> = lazy(() => import("../pages/home/Home"));
 
@@ -34,16 +35,15 @@ const Routers = () => {
               <Login />
             </Suspense>
           ),
-          children: [
-            {
-              path: "company",
-              element: <Suspense></Suspense>,
-            },
-          ],
+          children: [],
         },
         {
-          path: "/product/:id",
-          element: <Suspense></Suspense>,
+          path: "/register",
+          element: (
+            <Suspense>
+              <Register />
+            </Suspense>
+          ),
         },
       ],
     },

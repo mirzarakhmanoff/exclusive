@@ -1,4 +1,8 @@
+import { Button, Form, Input, Typography } from "antd";
 import shop from "../../assets/shoplogin.png";
+import { NavLink } from "react-router-dom";
+
+const { Title, Text } = Typography;
 
 const Login = () => {
   return (
@@ -7,63 +11,71 @@ const Login = () => {
         <img
           src={shop}
           alt="Shopping cart and phone"
-          className="w-3/4 h-auto"
+          className="object-cover max-w-md"
         />
       </div>
 
       <div className="flex-1 flex justify-center items-center bg-white">
-        <div className="max-w-sm w-full px-6">
-          <h2 className="text-2xl font-bold text-black mb-4">
+        <div className="max-w-md w-full p-8 shadow-md rounded-md">
+          <Title level={3} className="text-center mb-2">
             Log in to Exclusive
-          </h2>
-          <p className="text-gray-500 mb-6">Enter your details below</p>
+          </Title>
+          <Text className="block text-center text-gray-500 mb-6">
+            Enter your details below
+          </Text>
 
-          <form className="space-y-4">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm text-gray-600 mb-1"
-              >
-                Email or Phone Number
-              </label>
-              <input
-                type="text"
-                id="email"
-                className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
-                placeholder="Enter your email or phone"
-              />
-            </div>
+          <Form
+            layout="vertical"
+            size="large"
+            onFinish={(values) => {
+              console.log("Form Values:", values);
+            }}
+          >
+            <Form.Item
+              label="Email or Phone Number"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter your email or phone number!",
+                },
+              ]}
+            >
+              <Input placeholder="Enter your email or phone" />
+            </Form.Item>
 
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm text-gray-600 mb-1"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
-                placeholder="Enter your password"
-              />
-            </div>
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter your password!",
+                },
+              ]}
+            >
+              <Input.Password placeholder="Enter your password" />
+            </Form.Item>
 
-            <div>
-              <button
-                type="submit"
-                className="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 transition"
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="w-full bg-red-500 hover:bg-red-600"
               >
                 Log In
-              </button>
-            </div>
+              </Button>
+            </Form.Item>
 
             <div className="text-right">
-              <a href="#" className="text-red-500 text-sm hover:underline">
-                Forgot Password?
-              </a>
+              <NavLink
+                to={"/register"}
+                className="text-red-500 hover:underline"
+              >
+                Register
+              </NavLink>
             </div>
-          </form>
+          </Form>
         </div>
       </div>
     </div>

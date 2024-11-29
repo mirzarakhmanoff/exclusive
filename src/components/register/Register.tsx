@@ -1,26 +1,39 @@
 import { Button, Form, Input, Typography } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { registerSuccess } from "../../redux/slice/register-state";
+import OTP from "../OTP/Otp";
+import { useSignUpMutation } from "../../redux/api/register-api";
 
-const { Title, Text } = Typography;
-import shop from "../../assets/shoplogin.png";
-import { NavLink } from "react-router-dom";
+const { Title, Text, Link } = Typography;
 
 const Register = () => {
-  const onFinish = (values: string[]) => {
+  const [signUp] = useSignUpMutation();
+  const dispatch = useDispatch();
+  const isRegistered = useSelector(
+    (state: any) => state.authSlice.isRegistered
+  );
+
+  const onFinish = (values: any) => {
     console.log("Form Values:", values);
+    signUp(values);
+
+    dispatch(registerSuccess());
   };
+
+  if (isRegistered) {
+    return <OTP />;
+  }
 
   return (
     <div className="flex h-screen">
-      {/* Левая часть с изображением */}
       <div className="flex-1 bg-blue-50 flex justify-center items-center">
         <img
-          src={shop}
+          src="https://via.placeholder.com/400"
           alt="Registration illustration"
           className="object-contain max-w-md"
         />
       </div>
 
-      {/* Правая часть с формой */}
       <div className="flex-1 flex justify-center items-center bg-white">
         <div className="max-w-md w-full p-8 shadow-md rounded-md">
           <Title level={3} className="text-center mb-2">
@@ -31,7 +44,6 @@ const Register = () => {
           </Text>
 
           <Form layout="vertical" size="large" onFinish={onFinish}>
-            {/* Поле Email */}
             <Form.Item
               label="Email"
               name="email"
@@ -43,7 +55,6 @@ const Register = () => {
               <Input placeholder="Enter your email" />
             </Form.Item>
 
-            {/* Поле Username */}
             <Form.Item
               label="Username"
               name="username"
@@ -54,7 +65,6 @@ const Register = () => {
               <Input placeholder="Enter your username" />
             </Form.Item>
 
-            {/* Поле Password1 */}
             <Form.Item
               label="Password"
               name="password1"
@@ -66,7 +76,6 @@ const Register = () => {
               <Input.Password placeholder="Enter your password" />
             </Form.Item>
 
-            {/* Поле Password2 */}
             <Form.Item
               label="Confirm Password"
               name="password2"
@@ -86,7 +95,6 @@ const Register = () => {
               <Input.Password placeholder="Confirm your password" />
             </Form.Item>
 
-            {/* Кнопка Register */}
             <Form.Item>
               <Button
                 type="primary"
@@ -97,13 +105,12 @@ const Register = () => {
               </Button>
             </Form.Item>
 
-            {/* Ссылка на логин */}
             <div className="text-center">
               <Text>
                 Already have an account?{" "}
-                <NavLink to={"/login"} className="text-red-500 hover:underline">
+                <Link href="#" className="text-red-500 hover:underline">
                   Log In
-                </NavLink>
+                </Link>
               </Text>
             </div>
           </Form>

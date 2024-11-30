@@ -1,7 +1,9 @@
+import Header from "../../components/Header/Header";
+
 const Home = () => {
   return (
-    <div className="flex bg-red-50">
-      <span className="text-3xl">hello</span>
+    <div>
+      <Header />
     </div>
   );
 };

@@ -1,10 +1,31 @@
 import { Button, Form, Input, Typography } from "antd";
 import shop from "../../assets/shoplogin.png";
 import { NavLink } from "react-router-dom";
+import { useLoginMutation } from "../../redux/api/register-api";
+import { useNavigate } from "react-router-dom";
 
 const { Title, Text } = Typography;
 
 const Login = () => {
+  const [login] = useLoginMutation();
+  const navigate = useNavigate();
+
+  const onFinish = (values: { username: string; password: string }) => {
+    login(values)
+      .unwrap()
+      .then((res) => {
+        if (res) {
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.error("Login failed:", error);
+        if (error?.data) {
+          console.log("Error details:", error.data);
+        }
+      });
+  };
+
   return (
     <div className="flex h-screen">
       <div className="flex-1 bg-blue-50 flex justify-center items-center">
@@ -24,20 +45,14 @@ const Login = () => {
             Enter your details below
           </Text>
 
-          <Form
-            layout="vertical"
-            size="large"
-            onFinish={(values) => {
-              console.log("Form Values:", values);
-            }}
-          >
+          <Form layout="vertical" size="large" onFinish={onFinish}>
             <Form.Item
-              label="Email or Phone Number"
-              name="email"
+              label="Your username"
+              name="username"
               rules={[
                 {
                   required: true,
-                  message: "Please enter your email or phone number!",
+                  message: "Please enter your username !",
                 },
               ]}
             >

@@ -1,12 +1,12 @@
-import { FaSearch, FaHeart, FaShoppingCart } from "react-icons/fa"; // Import React Icons
-import { NavLink } from "react-router-dom";
+import { FaSearch, FaHeart, FaShoppingCart } from "react-icons/fa";
+import { Link, NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
     <section className="border-b border-gray-300">
       <header className="flex justify-between items-center py-6 px-8 transition-all ease-in-out relative">
         <h3 className="text-2xl font-bold m-0 text-black">
-          <a href="index.html">Exclusive</a>
+          <Link to={"/"}>Exclusive</Link>
         </h3>
         <nav className="flex justify-center gap-8 text-lg font-semibold">
           <NavLink to={"/"}>Home</NavLink>
@@ -26,18 +26,18 @@ const Header = () => {
             <FaSearch className="text-gray-600 text-2xl" />
           </form>
           <div className="flex items-center gap-6">
-            <a href="#" className="relative flex items-center">
+            <Link to={"/wishlist"} className="relative flex items-center">
               <FaHeart className="text-gray-600 text-2xl hover:text-red-500 transition-colors duration-200" />
               <p className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 0
               </p>
-            </a>
-            <a href="#" className="relative flex items-center">
+            </Link>
+            <Link to={"/cart"} className="relative flex items-center">
               <FaShoppingCart className="text-gray-600 text-2xl hover:text-green-500 transition-colors duration-200" />
               <p className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 0
               </p>
-            </a>
+            </Link>
           </div>
         </div>
       </header>

@@ -1,4 +1,5 @@
 import { FaSearch, FaHeart, FaShoppingCart } from "react-icons/fa"; // Import React Icons
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -8,10 +9,10 @@ const Header = () => {
           <a href="index.html">Exclusive</a>
         </h3>
         <nav className="flex justify-center gap-8 text-lg font-semibold">
-          <a href="#">Home</a>
-          <a href="#">Contact</a>
-          <a href="#">About</a>
-          <a href="#">Sign in</a>
+          <NavLink to={"/"}>Home</NavLink>
+          <NavLink to={"/"}>Contact</NavLink>
+          <NavLink to={"/"}>About</NavLink>
+          <NavLink to={"/register"}>Sign in</NavLink>
         </nav>
         <div className="flex items-center gap-8">
           <form className="flex items-center justify-between bg-gray-100 px-6 py-3 w-72 rounded-lg shadow-md">

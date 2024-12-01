@@ -4,8 +4,9 @@ import { registerSuccess } from "../../redux/slice/register-state";
 import OTP from "../OTP/Otp";
 import { useSignUpMutation } from "../../redux/api/register-api";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const { Title, Text, Link } = Typography;
+const { Title, Text } = Typography;
 
 const Register = () => {
   const [signUp] = useSignUpMutation();
@@ -124,7 +125,7 @@ const Register = () => {
             <div className="text-center">
               <Text>
                 Уже есть аккаунт?{" "}
-                <Link href="#" className="text-red-500 hover:underline">
+                <Link to={"/login"} className="text-red-500 hover:underline">
                   Войти
                 </Link>
               </Text>

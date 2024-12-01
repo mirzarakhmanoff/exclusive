@@ -1,6 +1,7 @@
 import { FaHeart, FaEye, FaShoppingCart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlist } from "../../redux/slice/wishlist-slice";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ products }: any) => {
   const dispatch = useDispatch();
@@ -44,13 +45,15 @@ const ProductCard = ({ products }: any) => {
           </div>
 
           {/* Картинка товара */}
-          <div className="relative">
-            <img
-              src={product.image}
-              alt={product.title}
-              className="w-full h-56 object-cover bg-gray-100"
-            />
-          </div>
+          <Link to={`/product/${product.id}`}>
+            <div className="relative">
+              <img
+                src={product.image}
+                alt={product.title}
+                className="w-full h-56 object-cover bg-gray-100"
+              />
+            </div>
+          </Link>
 
           {/* Информация о товаре */}
           <div className="p-6">

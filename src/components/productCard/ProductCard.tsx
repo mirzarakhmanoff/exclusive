@@ -1,6 +1,15 @@
 import { FaHeart, FaEye, FaShoppingCart } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleWishlist } from "../../redux/slice/wishlist-slice";
 
 const ProductCard = ({ products }: any) => {
+  const dispatch = useDispatch();
+  const wishlist = useSelector((state: any) => state.wishlist.value);
+
+  const isInWishlist = (productId: string) => {
+    return wishlist.some((item: any) => item.id === productId);
+  };
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
       {products.map((product: any) => (
@@ -17,8 +26,17 @@ const ProductCard = ({ products }: any) => {
 
           {/* Кнопки "Wishlist" и "View" */}
           <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-            <button className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100">
-              <FaHeart className="text-gray-600 hover:text-red-500" size={18} />
+            {/* Wishlist Button */}
+            <button
+              onClick={() => dispatch(toggleWishlist(product))}
+              className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100"
+            >
+              <FaHeart
+                className={`${
+                  isInWishlist(product.id) ? "text-red-500" : "text-gray-600"
+                } hover:text-red-500`}
+                size={18}
+              />
             </button>
             <button className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100">
               <FaEye className="text-gray-600 hover:text-blue-500" size={18} />

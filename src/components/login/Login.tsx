@@ -10,20 +10,21 @@ const Login = () => {
   const [login] = useLoginMutation();
   const navigate = useNavigate();
 
-  const onFinish = (values: { username: string; password: string }) => {
-    login(values)
-      .unwrap()
-      .then((res) => {
-        if (res) {
-          navigate("/");
-        }
-      })
-      .catch((error) => {
-        console.error("Login failed:", error);
-        if (error?.data) {
-          console.log("Error details:", error.data);
-        }
-      });
+  const onFinish = async (values: { username: string; password: string }) => {
+    try {
+      const response = await login(values).unwrap();
+      if (response?.access && response?.refresh) {
+        // Сохранение токенов в localStorage
+        localStorage.setItem("accessToken", response.access);
+        localStorage.setItem("refreshToken", response.refresh);
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      if (error) {
+        console.log("Error details:", error);
+      }
+    }
   };
 
   return (
@@ -52,7 +53,7 @@ const Login = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please enter your username !",
+                  message: "Please enter your username!",
                 },
               ]}
             >

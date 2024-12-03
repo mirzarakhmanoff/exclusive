@@ -13,7 +13,7 @@ const ProductCard = ({ products }: any) => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
-      {products.map((product: any) => (
+      {products?.map((product: any) => (
         <div
           key={product.id}
           className="relative cursor-pointer bg-white border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group"
@@ -48,9 +48,9 @@ const ProductCard = ({ products }: any) => {
           <Link to={`/product/${product.id}`}>
             <div className="relative">
               <img
-                src={product.image}
+                src={product.url}
                 alt={product.title}
-                className="w-full h-56 object-cover bg-gray-100"
+                className="w-full h-56 object-contain bg-gray-100"
               />
             </div>
           </Link>
@@ -65,8 +65,8 @@ const ProductCard = ({ products }: any) => {
             </div>
             <div className="flex items-center">
               <span className="text-yellow-500 text-sm">
-                {"★".repeat(Math.floor(product.rating))}
-                {"☆".repeat(5 - Math.floor(product.rating))}
+                {"★".repeat(Math.floor(5))}
+                {"☆".repeat(5 - Math.floor(5))}
               </span>
               <span className="text-gray-400 text-xs ml-2">
                 ({product.reviews} reviews)

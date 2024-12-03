@@ -4,14 +4,14 @@ export const productApi = api.injectEndpoints({
   endpoints: (build) => ({
     getProducts: build.query({
       query: (params) => ({
-        url: "/products",
+        url: "/all-phones",
         params,
       }),
       providesTags: ["Product"],
     }),
     getProductById: build.query({
       query: (id) => ({
-        url: `/products/${id}`,
+        url: `/phones${id}`,
       }),
       providesTags: ["Product"],
     }),
@@ -43,6 +43,7 @@ export const productApi = api.injectEndpoints({
 
 export const {
   useGetProductsQuery,
+  useGetProductByIdQuery,
   useCreateProductMutation,
   useDeleteProductMutation,
   useUpdateProductMutation,

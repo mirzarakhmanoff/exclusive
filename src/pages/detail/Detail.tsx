@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { FaHeart } from "react-icons/fa";
-import phone from "../../assets/phone.png";
+import { useParams } from "react-router-dom";
+import { useGetProductByIdQuery } from "../../redux/api/product-api";
 
 const ProductDetails = () => {
   const [selectedColor, setSelectedColor] = useState<string>("white");
-  const [selectedSize, setSelectedSize] = useState<string>("M");
+  const [selectedSize, setSelectedSize] = useState<string>("Standard");
   const [quantity, setQuantity] = useState<number>(1);
   const [wishlist, setWishlist] = useState<boolean>(false);
 
@@ -12,82 +13,72 @@ const ProductDetails = () => {
     setWishlist(!wishlist);
   };
 
+  const { id } = useParams();
+  const { data, isLoading, error } = useGetProductByIdQuery(id);
+  console.log(data);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading product details.</div>;
+  }
+
   return (
     <div className="flex flex-wrap gap-10 p-8">
-      {/* Левая секция с изображениями */}
+      {/* Левый блок с изображением */}
       <div className="flex flex-col gap-4 items-center">
-        {/* Основное изображение */}
         <img
-          src={phone}
-          alt="Main product"
+          src={data?.url_photo}
+          alt={data?.title}
           className="w-80 h-80 object-cover border rounded-lg"
         />
-        {/* Превью изображения */}
         <div className="grid grid-cols-4 gap-2">
-          <img
-            src={phone}
-            alt="Thumbnail 1"
-            className="w-24 h-24 object-cover border rounded-lg cursor-pointer hover:opacity-80"
-          />
-          <img
-            src={phone}
-            alt="Thumbnail 2"
-            className="w-24 h-24 object-cover border rounded-lg cursor-pointer hover:opacity-80"
-          />
-          <img
-            src={phone}
-            alt="Thumbnail 3"
-            className="w-24 h-24 object-cover border rounded-lg cursor-pointer hover:opacity-80"
-          />
-          <img
-            src={phone}
-            alt="Thumbnail 4"
-            className="w-24 h-24 object-cover border rounded-lg cursor-pointer hover:opacity-80"
-          />
+          {/* Для эскизов используем одно изображение, можно заменить на массив эскизов */}
+          {[...Array(4)].map((_, index) => (
+            <img
+              key={index}
+              src={data?.url_photo}
+              alt={`Thumbnail ${index + 1}`}
+              className="w-24 h-24 object-cover border rounded-lg cursor-pointer hover:opacity-80"
+            />
+          ))}
         </div>
       </div>
 
+      {/* Правый блок с деталями */}
       <div className="flex-1">
-        <h2 className="text-2xl font-bold mb-2">Havic HV G-92 Gamepad</h2>
+        <h2 className="text-2xl font-bold mb-2">{data?.title}</h2>
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-yellow-500">★★★★☆</span>
-          <span className="text-gray-500">(150 Reviews)</span>
+          <span className="text-yellow-500">
+            {"★".repeat(data?.rating || 0)}
+            {"☆".repeat(5 - (data?.rating || 0))}
+          </span>
+          <span className="text-gray-500">
+            ({data?.sold_count || 0} Reviews)
+          </span>
           <span className="text-green-600">In Stock</span>
         </div>
         <div className="text-2xl font-bold text-red-500 mb-4 text-start">
-          $192.00
+          ${data?.price}
         </div>
-        <p className="text-gray-600 mb-4 text-start">
-          PlayStation 5 Controller Skin High quality vinyl with air channel
-          adhesive for easy bubble free install & mess free removal Pressure
-          sensitive.
-        </p>
+        <p className="text-gray-600 mb-4 text-start">{data?.description}</p>
 
         {/* Выбор цвета */}
         <div className="mb-4">
           <h4 className="text-sm font-semibold mb-2 text-start">Colours:</h4>
           <div className="flex gap-4">
-            <button
-              className={`w-6 h-6 rounded-full border ${
-                selectedColor === "white" ? "ring-2 ring-black" : ""
-              }`}
-              style={{ backgroundColor: "white" }}
-              onClick={() => setSelectedColor("white")}
-            />
-            <button
-              className={`w-6 h-6 rounded-full border ${
-                selectedColor === "red" ? "ring-2 ring-black" : ""
-              }`}
-              style={{ backgroundColor: "red" }}
-              onClick={() => setSelectedColor("red")}
-            />
-            <button
-              className={`w-6 h-6 rounded-full border ${
-                selectedColor === "green" ? "ring-2 ring-black" : ""
-              }`}
-              style={{ backgroundColor: "green" }}
-              onClick={() => setSelectedColor("green")}
-            />
+            {["white", "red", "green"].map((color) => (
+              <button
+                key={color}
+                className={`w-6 h-6 rounded-full border ${
+                  selectedColor === color ? "ring-2 ring-black" : ""
+                }`}
+                style={{ backgroundColor: color }}
+                onClick={() => setSelectedColor(color)}
+              />
+            ))}
           </div>
         </div>
 
@@ -95,7 +86,7 @@ const ProductDetails = () => {
         <div className="mb-4 text-start">
           <h4 className="text-sm font-semibold mb-2">Model:</h4>
           <div className="flex gap-2">
-            {["Pro", "Pro Max "].map((size) => (
+            {[data?.model, `${data?.model} Max`].map((size) => (
               <button
                 key={size}
                 className={`px-4 py-2 border rounded-lg ${
@@ -111,6 +102,7 @@ const ProductDetails = () => {
           </div>
         </div>
 
+        {/* Количество */}
         <div className="mb-6 flex items-center gap-4">
           <button
             className="text-xl font-bold border px-4 py-2"
@@ -127,6 +119,7 @@ const ProductDetails = () => {
           </button>
         </div>
 
+        {/* Кнопки действий */}
         <div className="flex items-center gap-4">
           <button className="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600">
             Buy Now

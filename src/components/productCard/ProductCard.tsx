@@ -2,13 +2,21 @@ import { FaHeart, FaEye, FaShoppingCart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlist } from "../../redux/slice/wishlist-slice";
 import { Link } from "react-router-dom";
+import { addToCart } from "../../redux/slice/cart-slice";
+import { useLikePhoneMutation } from "../../redux/api/cart-api";
 
 const ProductCard = ({ products }: any) => {
   const dispatch = useDispatch();
   const wishlist = useSelector((state: any) => state.wishlist.value);
+  const [likePhone] = useLikePhoneMutation();
 
   const isInWishlist = (productId: string) => {
     return wishlist.some((item: any) => item.id === productId);
+  };
+
+  const handleLike = (productId: string) => {
+    dispatch(toggleWishlist(productId));
+    likePhone(productId);
   };
 
   return (
@@ -29,7 +37,7 @@ const ProductCard = ({ products }: any) => {
           <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
             {/* Wishlist Button */}
             <button
-              onClick={() => dispatch(toggleWishlist(product))}
+              onClick={() => handleLike(product.id)}
               className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100"
             >
               <FaHeart
@@ -76,10 +84,17 @@ const ProductCard = ({ products }: any) => {
 
           {/* Иконка добавления в корзину */}
           <div className="absolute bottom-4 left-[200px] transform -translate-x-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 z-10">
-            <FaShoppingCart
-              className="text-gray-600 hover:text-green-500"
-              size={18}
-            />
+            <button
+              onClick={() => {
+                dispatch(addToCart(product));
+                console.log(product);
+              }}
+            >
+              <FaShoppingCart
+                className="text-gray-600 hover:text-green-500"
+                size={18}
+              />
+            </button>
           </div>
         </div>
       ))}

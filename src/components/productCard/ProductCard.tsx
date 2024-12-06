@@ -14,9 +14,9 @@ const ProductCard = ({ products }: any) => {
     return wishlist.some((item: any) => item.id === productId);
   };
 
-  const handleLike = (productId: string) => {
-    dispatch(toggleWishlist(productId));
-    likePhone(productId);
+  const handleLike = (product: any) => {
+    dispatch(toggleWishlist(product));
+    likePhone(product.id);
   };
 
   return (
@@ -37,7 +37,7 @@ const ProductCard = ({ products }: any) => {
           <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
             {/* Wishlist Button */}
             <button
-              onClick={() => handleLike(product.id)}
+              onClick={() => handleLike(product)}
               className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100"
             >
               <FaHeart

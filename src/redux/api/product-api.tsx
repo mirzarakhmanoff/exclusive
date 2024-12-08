@@ -15,7 +15,17 @@ export const productApi = api.injectEndpoints({
       }),
       providesTags: ["Product"],
     }),
+    getCategories: build.query({
+      query: (name) => ({
+        url: `/categories?model=${name}`,
+      }),
+      providesTags: ["Product"],
+    }),
   }),
 });
 
-export const { useGetProductsQuery, useGetProductByIdQuery } = productApi;
+export const {
+  useGetProductsQuery,
+  useGetProductByIdQuery,
+  useGetCategoriesQuery,
+} = productApi;

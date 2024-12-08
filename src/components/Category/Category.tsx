@@ -10,7 +10,7 @@ const categories = [
 const CategoriesSection = () => {
   return (
     <section className="py-16 flex">
-      <div className="max-w-7xl mx-auto px-4  text-start ">
+      <div className="max-w-7xl mx-auto px-4  tex-sm border">
         <h2 className="text-red-500 font-semibold text-lg">Categories</h2>
         <h3 className="text-3xl font-bold mb-8">Browse By Category</h3>
         <div className="flex gap-5 ">

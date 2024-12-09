@@ -1,8 +1,8 @@
 import ProductCard from "../productCard/ProductCard";
-import { useGetCategoriesQuery } from "../../redux/api/product-api";
+import { useGetProductsQuery } from "../../redux/api/product-api";
 
 const Products = () => {
-  const { data: phones } = useGetCategoriesQuery({});
+  const { data: phones } = useGetProductsQuery({});
 
   return (
     <div className="p-8">

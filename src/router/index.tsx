@@ -6,6 +6,9 @@ import Register from "../components/register/Register";
 import Wishlist from "../pages/wishlist/Wishlist";
 import ProductDetails from "../pages/detail/Detail";
 import CartPage from "../pages/cart/Cart";
+import Admin from "../pages/admin/Admin";
+import Dashboard from "../pages/dashboard/Dashboard";
+import AddPhoneForm from "../pages/addPhone/AddPhone";
 
 const Home: LazyExoticComponent<any> = lazy(() => import("../pages/home/Home"));
 
@@ -69,6 +72,32 @@ const Routers = () => {
           element: (
             <Suspense>
               <ProductDetails />
+            </Suspense>
+          ),
+        },
+      ],
+    },
+    {
+      path: "/admin",
+      element: (
+        <Suspense>
+          <Admin />
+        </Suspense>
+      ),
+      children: [
+        {
+          path: "dashboard",
+          element: (
+            <Suspense>
+              <Dashboard />
+            </Suspense>
+          ),
+        },
+        {
+          path: "products",
+          element: (
+            <Suspense>
+              <AddPhoneForm />
             </Suspense>
           ),
         },

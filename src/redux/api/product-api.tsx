@@ -25,15 +25,13 @@ export const productApi = api.injectEndpoints({
       query: (formData) => {
         const { model, title, price, year, description, photo } = formData;
 
-        // Проверяем, что фото передано
         if (!photo) {
           throw new Error("Фото не выбрано");
         }
 
         const form = new FormData();
-        form.append("upload_phone_photo", photo); // Здесь добавляем файл
+        form.append("upload_phone_photo", photo);
 
-        // Добавляем остальные параметры в строку запроса
         const params = new URLSearchParams({
           model,
           title,
@@ -43,7 +41,7 @@ export const productApi = api.injectEndpoints({
         }).toString();
 
         return {
-          url: `/add-phone?${params}`, // Параметры в строке запроса
+          url: `/add-phone?${params}`,
           method: "POST",
           body: form,
         };

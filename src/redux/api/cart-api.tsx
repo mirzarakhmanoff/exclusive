@@ -17,7 +17,23 @@ export const productApi = api.injectEndpoints({
       }),
       invalidatesTags: ["Product"],
     }),
+    addToCart: build.mutation({
+      query: (id) => ({
+        url: `/cart/${id}`,
+        method: "POST",
+        body: { id },
+      }),
+      invalidatesTags: ["Product"],
+    }),
+    order: build.query({
+      query: (params) => ({
+        url: "/buy",
+        params,
+      }),
+      providesTags: ["Product"],
+    }),
   }),
 });
 
-export const { useLikePhoneMutation } = productApi;
+export const { useLikePhoneMutation, useAddToCartMutation, useOrderQuery } =
+  productApi;

@@ -41,7 +41,7 @@ const AddPhoneForm = () => {
       price: formData.price,
       year: formData.year,
       description: formData.description,
-      file: formData.photo, // Добавляем файл
+      photo: formData.photo, // Добавляем файл
     };
 
     addPhone(dataToSend);

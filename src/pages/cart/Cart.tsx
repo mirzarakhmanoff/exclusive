@@ -1,15 +1,20 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   clearCart,
   removeFromCart,
   updateQuantity,
 } from "../../redux/slice/cart-slice";
+import { useOrderQuery } from "../../redux/api/cart-api";
 
 const CartPage: React.FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cartItems = useSelector((state: any) => state?.cart?.items);
-  console.log(cartItems);
+  const { data: order, refetch } = useOrderQuery({}, { skip: true });
+
+  console.log(order);
 
   const calculateTotal = () =>
     cartItems?.reduce(
@@ -17,12 +22,32 @@ const CartPage: React.FC = () => {
       0
     );
 
+  const handleCheckout = async () => {
+    try {
+      const response = await refetch();
+      console.log("Order data:", response?.data);
+      navigate("/checkout");
+    } catch (error) {
+      console.error("Error fetching order data:", error);
+    }
+  };
+
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-6">Shopping Cart</h1>
 
       {cartItems?.length === 0 ? (
-        <p className="text-gray-600">Your cart is empty. Start shopping!</p>
+        <div className="text-center">
+          <p className="text-gray-600 mb-4">
+            Your cart is empty. Start shopping!
+          </p>
+          <button
+            className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600"
+            onClick={() => navigate("/")}
+          >
+            Go to Shop
+          </button>
+        </div>
       ) : (
         <>
           <div className="flex flex-col gap-6">
@@ -101,7 +126,10 @@ const CartPage: React.FC = () => {
             <div className="text-2xl font-bold">
               Total: ${calculateTotal()?.toFixed(2)}
             </div>
-            <button className="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600">
+            <button
+              onClick={handleCheckout}
+              className="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600"
+            >
               Proceed to Checkout
             </button>
           </div>

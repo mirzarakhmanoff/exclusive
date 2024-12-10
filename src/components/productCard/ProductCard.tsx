@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlist } from "../../redux/slice/wishlist-slice";
 import { Link } from "react-router-dom";
 import { addToCart } from "../../redux/slice/cart-slice";
-import { useLikePhoneMutation } from "../../redux/api/cart-api";
+import {
+  useAddToCartMutation,
+  useLikePhoneMutation,
+} from "../../redux/api/cart-api";
 
 const ProductCard = ({ products }: any) => {
   const dispatch = useDispatch();
@@ -13,6 +16,7 @@ const ProductCard = ({ products }: any) => {
   const isInWishlist = (productId: string) => {
     return wishlist.some((item: any) => item.id === productId);
   };
+  const [toCart] = useAddToCartMutation();
 
   const handleLike = (product: any) => {
     dispatch(toggleWishlist(product));
@@ -26,7 +30,6 @@ const ProductCard = ({ products }: any) => {
           key={product.id}
           className="relative cursor-pointer bg-white border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group"
         >
-          {/* Label "NEW" */}
           {product.isNew && (
             <span className="absolute top-2 left-2 bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-lg shadow-md">
               NEW
@@ -82,12 +85,12 @@ const ProductCard = ({ products }: any) => {
             </div>
           </div>
 
-          {/* Иконка добавления в корзину */}
           <div className="absolute bottom-4 left-[200px] transform -translate-x-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 z-10">
             <button
               onClick={() => {
                 dispatch(addToCart(product));
                 console.log(product);
+                toCart(product?.id);
               }}
             >
               <FaShoppingCart
